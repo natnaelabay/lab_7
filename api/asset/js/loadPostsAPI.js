@@ -103,3 +103,36 @@ function loadDataNew() {
 
 
 
+
+let filter = document.querySelector("#search")
+filter.addEventListener("keyup",Search)
+let hidden = []
+function Search(e) {
+    let payload = filter.value;
+    console.log(payload);
+    if (payload == "") {
+        hidden.forEach(item => {
+            item.style.display = "block";
+        })
+    } else {
+        const collectionItems = document.querySelectorAll(".post-list");
+        collectionItems.forEach(item => {
+            console.log();
+            if (`${item.children[1].children[0].firstChild.textContent.trim().toLocaleLowerCase()}`.indexOf(payload) == -1) {
+                hidden.push(item);
+            } else {
+                const idx = hidden.indexOf(item)
+                if (idx != -1) {
+                    hidden[idx].style.display = "none";
+                    hidden = hidden.filter(item => {
+                        return item != hidden[idx]
+                    })
+                }
+            }
+        })
+        hidden.forEach(item => {
+            item.style.display = "none"
+        })
+    };
+
+}
