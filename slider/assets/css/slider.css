@@ -1,0 +1,51 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.slide-show-wrapper {
+    height: 30rem;
+    width: 60%;
+    background-color: red;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    overflow:hidden;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+/* img { */
+    /* opacity: 1; */
+    /* width: 100%; */
+    /* transition: all .4s; */
+    /* object-fit: cover; */
+/* } */
+/* 
+.carousel {
+    width: 100%;
+    height: 50vh;
+} */
+.carousel {
+    height: 500px;
+    position: relative;
+}
+.my-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+}
+
+.carousel .carousel-item {
+    height: 500px;
+  }
+  
+  .carousel-item img {
+    position: absolute;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    object-fit: contain;
+    min-height: 500px;
+
+  }
