@@ -1,64 +1,136 @@
 // UI Vars 
-const postDiv2 = document.getElementById('myPosts');
+const postDiv3 = document.getElementById('thePosts');
 
+//Load Every thing ....
+document.addEventListener("DOMContentLoaded", () => {
+    //load_fromPlaceHolder();
+    loadDataNew();
+});
 
 
 //load a single customer function 
-function loadPosts() {
+function load_fromPlaceHolder() {
 
-    // Create the xhr object 
-    const xhr = new XMLHttpRequest();
-
-    // Open the connection [URL can be local or remote]
-    xhr.open('GET', '/Lesson 05[Lab 07]/Finished/asset/jsonData/posts.json', true);
-
-    //on ready state is 4 when it reaches this method 
-    xhr.onload = function() {
-        // Check status is OK 
-        if (this.status === 200) {
-
-            //the data will be parsed as an array object from the responseText object 
-            const posts = JSON.parse(this.responseText);
-
+    //open the request 
+    fetch('https://jsonplaceholder.typicode.com/posts')
+        .then(function (res) {
+            return res.json(); //return the JSON Promise
+        })
+        .then(function (posts) {
+            //iterate over each post [100 posts]
             let output = '';
-
-            posts.forEach(post => {
-
-                // Creating the UI by concatenation
+            posts.forEach(function (post) {
                 output += `
-              <div class="item">
-              <div class="image">
-                  <img src="${post.image}">
-              </div>
-              <div class="content">
-                  <a class="header" href="#" id="bTitle">
-                  ${post.postTitle}
-                  </a>
-                  <div class="meta">
-                      <span id="bDate">${post.date} </span>
-                      <span>By: <a href="#" id="bAuthor"> ${post.name}</a></span>
-                  </div>
-                  <div class="description">
-                      <p id="bDesc">
-                      ${post.postText}
-                      </p>
-                  </div>
-                  <div class="extra">
-                      <a class="ui floated basic violet button" href="#">Read Mores</a>
-                  </div>
-              </div>
-          </div>
-          `;
-
+        
+                <div class="item">
+                <div class="image">
+                    <img src=" https://images.unsplash.com/photo-1499482125586-91609c0b5fd4?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80">
+                </div>
+                <div class="content">
+                    <a class="header" href="#" id="bTitle">
+                    ${post.title.toUpperCase()}
+                    </a>
+                    <div class="description">
+                        <p id="bDesc">
+                        ${post.body}
+                        </p>
+                    </div>
+                    <div class="extra">
+                        <a class="ui floated basic violet button" href="#">Read Mores</a>
+                    </div>
+                </div>
+            </div>
+        
+        `;
             });
+            postDiv3.innerHTML = output;
+        })
+        .catch(function (err) {
+            console.log(err);
+        });
 
 
 
-            // Assign it to the DIV
-            postDiv2.innerHTML = output;
-        }
-    }
+}
 
-    // Send the Request 
-    xhr.send();
+async function load_fromPlaceHolder_new() {
+
+    //open the request 
+    let response = await fetch('https://jsonplaceholder.typicode.com/posts');
+
+    let data = await response.json();
+
+    return data;
+
+}
+
+function loadDataNew() {
+    load_fromPlaceHolder_new().then(function (posts) {
+        //iterate over each post [100 posts]
+        let output = '';
+        document.querySelector('.segment').style.display = "none"
+        posts.forEach(function (post) {
+            output += `
+
+        <div class="item post-list">
+        <div class="image">
+            <img src=" https://images.unsplash.com/photo-1499482125586-91609c0b5fd4?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80">
+        </div>
+        <div class="content">
+                <a class="header" href="#" id="bTitle">
+                ${post.title.toUpperCase()}
+                </a>
+                <div class="description">
+                    <p id="bDesc">
+                    ${post.body}
+                    </p>
+                </div>
+                <div class="extra">
+                    <a class="ui floated basic violet button" href="#">Read Mores</a>
+                </div>
+            </div>
+        </div>`;
+        });
+        postDiv3.innerHTML = output;
+    })
+        .catch(function (err) {
+            console.log(err);
+        });
+
+}
+
+
+
+
+let filter = document.querySelector("#search")
+filter.addEventListener("keyup",Search)
+let hidden = []
+function Search(e) {
+    let payload = filter.value;
+    console.log(payload);
+    if (payload == "") {
+        hidden.forEach(item => {
+            item.style.display = "block";
+        })
+    } else {
+        const collectionItems = document.querySelectorAll(".post-list");
+        collectionItems.forEach(item => {
+            console.log();
+            if (`${item.children[1].children[0].firstChild.textContent.trim().toLocaleLowerCase()}`.indexOf(payload) == -1) {
+                hidden.push(item);
+            } else {
+                const idx = hidden.indexOf(item)
+                if (idx != -1) {
+                    hidden[idx].style.display = "none";
+                    hidden = hidden.filter(item => {
+                        return item != hidden[idx]
+                    })
+                }
+            }
+        })
+        hidden.forEach(item => {
+            item.style.display = "none"
+        })
+    };
+
 }
