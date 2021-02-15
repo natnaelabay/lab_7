@@ -1,0 +1,22 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.slide-show-wrapper {
+    height: 30rem;
+    width: 60%;
+    background-color: red;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    overflow:hidden;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+img {
+    /* opacity: 1; */
+    width: 100%;
+    transition: all .4s;
+    /* object-fit: cover; */
+}
